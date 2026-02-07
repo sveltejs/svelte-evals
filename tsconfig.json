@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"allowImportingTsExtensions": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"lib": ["ESNext"]
+	},
+	"include": ["experiments"]
+}
