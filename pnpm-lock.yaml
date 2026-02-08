@@ -12,8 +12,8 @@ importers:
         specifier: 1.0.0-alpha.10
         version: 1.0.0-alpha.10
       '@vercel/agent-eval':
-        specifier: ^0.0.14
-        version: 0.0.14
+        specifier: ^0.2.0
+        version: 0.2.0
       ai:
         specifier: ^6.0.71
         version: 6.0.71(zod@3.25.76)
@@ -425,8 +425,8 @@ packages:
   '@types/node@22.19.8':
     resolution: {integrity: sha512-ebO/Yl+EAvVe8DnMfi+iaAyIqYdK0q/q0y0rw82INWEKJOBe6b/P3YWE8NW7oOlF/nXFNrHwhARrN/hdgDkraA==}
 
-  '@vercel/agent-eval@0.0.14':
-    resolution: {integrity: sha512-iTEQYs3XziqqsQ4OV+n7UqnxnqjCIEc6CarBwnJOg+P5ydGqhypBU0EQ9SOoh+wJOJWMZU7F4AuVK9C8jQrRzg==}
+  '@vercel/agent-eval@0.2.0':
+    resolution: {integrity: sha512-Mtg+ExdY1U054OXuLLwGduaVK8V5qNUulx7744CLOPrmsKPfkapquyZVYy7s1kqAQyTIqNw7TEd7csWWRN5Irw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -1264,7 +1264,7 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@vercel/agent-eval@0.0.14':
+  '@vercel/agent-eval@0.2.0':
     dependencies:
       '@ai-sdk/anthropic': 1.2.12(zod@3.25.76)
       '@vercel/sandbox': 1.4.1
@@ -1275,6 +1275,7 @@ snapshots:
       dotenv: 16.6.1
       glob: 11.1.0
       jiti: 2.6.1
+      minimatch: 10.1.2
       tar-stream: 3.1.7
       zod: 3.25.76
     transitivePeerDependencies:
