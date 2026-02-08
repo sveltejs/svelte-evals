@@ -26,13 +26,13 @@ sibling of `experiments/`.
 
 ```bash
 # Run a single experiment by name (experiments/basic.ts)
-npx agent-eval basic
+npx @vercel/agent-eval basic
 
 # Or run by path
-npx agent-eval experiments/basic.ts
+npx @vercel/agent-eval experiments/basic.ts
 
 # Run every experiment in the repository
-npx agent-eval
+npx @vercel/agent-eval
 ```
 
 Results are written to `results/<experiment-name>/<timestamp>/`.
@@ -43,7 +43,7 @@ The `agent-eval` CLI exposes a `playground` command that launches
 `@vercel/agent-eval-playground` under the hood:
 
 ```bash
-npx agent-eval playground --results-dir ./results --evals-dir ./evals --port 3000
+npx @vercel/agent-eval-playground --results-dir ./results --evals-dir ./evals --port 3000
 ```
 
 Open the URL it prints (default: http://localhost:3000) to browse results.
@@ -81,5 +81,5 @@ export default experiment({
 
 3. Run it with:
    ```bash
-   npx agent-eval my-experiment
+   npx @vercel/agent-eval my-experiment
    ```
