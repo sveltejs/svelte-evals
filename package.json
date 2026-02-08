@@ -1,0 +1,20 @@
+{
+	"name": "svelte-evals",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"add-eval": "node ./scripts/add-eval.ts",
+		"visualize": "node ./scripts/visualize.ts"
+	},
+	"devDependencies": {
+		"@types/node": "^22.0.0",
+		"typescript": "^5.6.0",
+		"vitest": "^2.1.0"
+	},
+	"dependencies": {
+		"@clack/prompts": "1.0.0-alpha.10",
+		"@vercel/agent-eval": "^0.2.0",
+		"ai": "^6.0.71"
+	}
+}
