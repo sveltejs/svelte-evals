@@ -12,8 +12,8 @@ importers:
         specifier: 1.0.0-alpha.10
         version: 1.0.0-alpha.10
       '@vercel/agent-eval':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.2
+        version: 0.3.2
       ai:
         specifier: ^6.0.71
         version: 6.0.71(zod@3.25.76)
@@ -36,8 +36,8 @@ packages:
     peerDependencies:
       zod: ^3.0.0
 
-  '@ai-sdk/gateway@2.0.34':
-    resolution: {integrity: sha512-+MZ/sY1i3MH/pB2W8DHZy9WOmlDdlR/FOJ/GwCVittVnbBCkMLIocIuR0sHuHawwFpTkFZziRW7Y98s/v+XMGA==}
+  '@ai-sdk/gateway@2.0.35':
+    resolution: {integrity: sha512-fMzhC9artgY2s2GgXEWB+cECRJEHHoFJKzDpzsuneguNQ656vydPHhvDdoMjbWW+UtLc4nGf3VwlqG0t4FeQ/w==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -425,8 +425,8 @@ packages:
   '@types/node@22.19.8':
     resolution: {integrity: sha512-ebO/Yl+EAvVe8DnMfi+iaAyIqYdK0q/q0y0rw82INWEKJOBe6b/P3YWE8NW7oOlF/nXFNrHwhARrN/hdgDkraA==}
 
-  '@vercel/agent-eval@0.2.0':
-    resolution: {integrity: sha512-Mtg+ExdY1U054OXuLLwGduaVK8V5qNUulx7744CLOPrmsKPfkapquyZVYy7s1kqAQyTIqNw7TEd7csWWRN5Irw==}
+  '@vercel/agent-eval@0.3.2':
+    resolution: {integrity: sha512-csfaREMAxTMnkcQH1CO+iloEN11c8A5fkAa6Apb+uKq1wBfG3jZIyj+uRpE4gkvntHVAGMjaI0OJ5qsEmrEBHw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -466,8 +466,8 @@ packages:
   '@vitest/utils@2.1.9':
     resolution: {integrity: sha512-v0psaMSkNJ3A2NMrUEHFRzJtDPFn+/VWZ5WxImB21T9fjucJRmS7xCS3ppEnARb9y11OAzaD+P2Ps+b+BGX5iQ==}
 
-  ai@5.0.128:
-    resolution: {integrity: sha512-861sVBlBBx4ZNHnSfSjtWFQFz2KbJ/uXxdYOkaLSRf3tkvCLrNo1hrFsgGFMMTzPT/X/iXW26OoFQiO3aSvoog==}
+  ai@5.0.129:
+    resolution: {integrity: sha512-IARdFetNTedDfqpByNMm9p0oHj7JS+SpOrbgLdQdyCiDe70Xk07wnKP4Lub1ckCrxkhAxY3yxOHllGEjbpXgpQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -665,8 +665,8 @@ packages:
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  jackspeak@4.2.1:
-    resolution: {integrity: sha512-GPBXyfcZSGujjddPeA+V34bW70ZJT7jzCEbloVasSH4yjiqWqXHX8iZQtZdVbOhc5esSeAIuiSmMutRZQB/olg==}
+  jackspeak@4.2.3:
+    resolution: {integrity: sha512-ykkVRwrYvFm1nb2AJfKKYPr0emF6IiXDYUaFx4Zn9ZuIH7MrzEZ3sD5RlqGXNRpHtvUHJyOnCEFxOlNDtGo7wg==}
     engines: {node: 20 || >=22}
 
   jiti@2.6.1:
@@ -996,7 +996,7 @@ snapshots:
       '@ai-sdk/provider-utils': 2.2.8(zod@3.25.76)
       zod: 3.25.76
 
-  '@ai-sdk/gateway@2.0.34(zod@3.25.76)':
+  '@ai-sdk/gateway@2.0.35(zod@3.25.76)':
     dependencies:
       '@ai-sdk/provider': 2.0.1
       '@ai-sdk/provider-utils': 3.0.20(zod@3.25.76)
@@ -1264,11 +1264,11 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@vercel/agent-eval@0.2.0':
+  '@vercel/agent-eval@0.3.2':
     dependencies:
       '@ai-sdk/anthropic': 1.2.12(zod@3.25.76)
       '@vercel/sandbox': 1.4.1
-      ai: 5.0.128(zod@3.25.76)
+      ai: 5.0.129(zod@3.25.76)
       chalk: 5.6.2
       commander: 12.1.0
       dockerode: 4.0.9
@@ -1340,9 +1340,9 @@ snapshots:
       loupe: 3.2.1
       tinyrainbow: 1.2.0
 
-  ai@5.0.128(zod@3.25.76):
+  ai@5.0.129(zod@3.25.76):
     dependencies:
-      '@ai-sdk/gateway': 2.0.34(zod@3.25.76)
+      '@ai-sdk/gateway': 2.0.35(zod@3.25.76)
       '@ai-sdk/provider': 2.0.1
       '@ai-sdk/provider-utils': 3.0.20(zod@3.25.76)
       '@opentelemetry/api': 1.9.0
@@ -1534,7 +1534,7 @@ snapshots:
   glob@11.1.0:
     dependencies:
       foreground-child: 3.3.1
-      jackspeak: 4.2.1
+      jackspeak: 4.2.3
       minimatch: 10.1.2
       minipass: 7.1.2
       package-json-from-dist: 1.0.1
@@ -1548,7 +1548,7 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  jackspeak@4.2.1:
+  jackspeak@4.2.3:
     dependencies:
       '@isaacs/cliui': 9.0.0
 
