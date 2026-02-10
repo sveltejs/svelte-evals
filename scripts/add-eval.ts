@@ -31,3 +31,13 @@ const eval_path = `./evals/${name}`;
 
 await cp('./assets/default-project', eval_path, { recursive: true });
 await writeFile(`${eval_path}/PROMPT.md`, prompt);
+await writeFile(
+	`${eval_path}/EVAL.ts`,
+	`import { expect, it } from 'vitest';
+
+it('validate', async () => {
+	// nothing to check here
+	expect(true).toBe(true);
+});
+`,
+);
