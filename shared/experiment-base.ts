@@ -33,7 +33,8 @@ const base_config: ExperimentConfig = {
 	model: models.map((model) => `vercel/${model}`),
 	scripts: ['build', 'test'],
 	timeout: 600,
-	sandbox: 'docker',
+	sandbox: 'vercel',
+	copyFiles: 'changed',
 };
 
 export function experiment(
