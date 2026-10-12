@@ -8,3 +8,4 @@ results/
 .vercel
 .env*.local
 old-ones
+.env*

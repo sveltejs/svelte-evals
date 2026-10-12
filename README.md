@@ -19,6 +19,13 @@ This repository is split into two main concepts:
    ```
    Fill in `AI_GATEWAY_API_KEY` plus either `VERCEL_TOKEN` or `VERCEL_OIDC_TOKEN`.
 
+   Alternatively, if the project is linked with the Vercel CLI, pull a `VERCEL_OIDC_TOKEN` into
+   `.env.local` (it works for both the AI Gateway and the sandbox, but expires after a few hours,
+   so re-run this when authentication starts failing):
+   ```bash
+   npx vercel env pull .env.local
+   ```
+
 ## Run an experiment with `@vercel/agent-eval`
 
 Experiments are defined in `experiments/*.ts`. The CLI expects the `evals/` folder to be a
@@ -31,20 +38,32 @@ npx @vercel/agent-eval basic
 # Or run by path
 npx @vercel/agent-eval experiments/basic.ts
 
-# Run every experiment in the repository
-npx @vercel/agent-eval
+# Run a single eval of the experiment to verify the setup (API keys, model IDs, sandbox)
+npx @vercel/agent-eval basic --smoke
 ```
 
-Results are written to `results/<experiment-name>/<timestamp>/`.
+Every experiment asks which model(s) to benchmark when it's loaded (see
+`shared/experiment-base.ts`), so the commands above need an interactive terminal.
 
-## Visualize results with `@vercel/agent-eval-playground`
+Results are written to `results/<experiment-name>/<model>/<timestamp>/`.
 
-The `agent-eval` CLI exposes a `playground` command that launches
-`@vercel/agent-eval-playground` under the hood:
+> [!WARNING]
+> Since `@vercel/agent-eval` 2.x there's also a `run` subcommand (`npx @vercel/agent-eval run basic`,
+> also what you get by picking an experiment from the bare `npx @vercel/agent-eval`). It only
+> executes new/changed evals, but it writes to a different layout (`results/<experiment-name>/<timestamp>/`)
+> and then runs a "housekeeping" step that **deletes everything else it finds in
+> `results/<experiment-name>/`**, including the per-model results produced by the commands above
+> (and the results of `--smoke` runs). Don't use it on an experiment whose results you want to keep.
+
+## Visualize results with the playground
+
+The `agent-eval` CLI exposes a `playground` command to browse the results:
 
 ```bash
-npx @vercel/agent-eval-playground --results-dir ./results --evals-dir ./evals --port 3000
+npx @vercel/agent-eval playground --results-dir ./results --evals-dir ./evals --port 3000
 ```
+
+Add `--watch` to live-reload while an experiment is running.
 
 Open the URL it prints (default: http://localhost:3000) to browse results.
 
@@ -60,7 +79,42 @@ The script will:
 - Create `evals/<your-eval-name>/` from `assets/default-project/`
 - Write your prompt to `evals/<your-eval-name>/PROMPT.md`
 
-Afterward, edit `EVAL.ts` and any tests inside the new eval to define success criteria.
+Afterward, edit `EVAL.ts` and `test/EVAL.ts` inside the new eval to define success criteria.
+
+### Where tests live
+
+`@vercel/agent-eval` removes every file named `EVAL.ts` (in any folder) and `PROMPT.md` before the
+LLM runs, and puts them back right before validation. **Any other file is visible to the LLM**, so
+tests must always be in a file called `EVAL.ts`:
+
+- `EVAL.ts` is run by the harness with its own vitest config (no Svelte plugin): use it for static
+  checks on the generated source.
+- `test/EVAL.ts` contains the component tests (Vitest Browser Mode + `vitest-browser-svelte`,
+  using headless Chromium through Playwright). It's run by the
+  `test` npm script, which experiments list in `scripts`. The script passes
+  `--config vite.config.ts` explicitly because the harness writes a `vitest.config.ts` in the
+  project that would otherwise take precedence.
+
+Component tests use `render` from `vitest-browser-svelte`, browser locators, and awaited
+`expect.element(...)` assertions. Keyboard interactions use `userEvent` from `vitest/browser`.
+The renderer automatically cleans up between tests; no jsdom or Testing Library setup is needed.
+
+The `pretest` script runs `playwright install --with-deps chromium` to install the matching
+Chromium binary and its system libraries. Experiments use the Ubuntu-based
+`vercel/sandbox/universal:latest` image through agent-eval's `sandboxImage` option, so
+Playwright manages the Linux dependencies. The browser download is cached on subsequent runs.
+
+To run an eval's component tests locally after implementing its prompt:
+
+```bash
+cd evals/accordion
+pnpm install --ignore-workspace
+pnpm test
+```
+
+Since the LLM can't see the tests, `PROMPT.md` has to specify everything they rely on: `data-testid`
+attributes, prop names and defaults, text formats, roles, etc. Don't specify the things the eval is
+trying to measure (e.g. which rune to use).
 
 ## Create a new experiment
 

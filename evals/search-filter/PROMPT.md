@@ -13,6 +13,8 @@ Create a Svelte 5 search filter component with:
 - Use `$derived()` for filtered items and result count
 - Use `@render` to render for each filtered item based with `children` prop
 - Search input should have `role="searchbox"`
-- Show result count in format "X results" (e.g., "2 results", "0 results")
+- An item matches when the query is a substring of at least one of its `searchFields` values; an empty query shows all items
+- Each filtered item object is passed as the single argument to `children`
+- Always show the result count in its own element whose only text is "X results" (e.g., "2 results", "0 results"); never pluralize differently (1 match is "1 results")
 
 Create the component in `src/routes/+page.svelte` without importing other components

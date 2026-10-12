@@ -34,6 +34,7 @@ const base_config: ExperimentConfig = {
 	scripts: ['build', 'test'],
 	timeout: 600,
 	sandbox: 'vercel',
+	sandboxImage: 'vercel/sandbox/universal:latest',
 	copyFiles: 'changed',
 };
 
