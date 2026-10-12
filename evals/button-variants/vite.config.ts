@@ -1,9 +1,10 @@
 import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import { sveltekit } from '@sveltejs/kit/vite';
+import adapter from '@sveltejs/adapter-auto';
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [sveltekit({ adapter: adapter() })],
 	test: {
 		expect: { requireAssertions: true },
 		projects: [
