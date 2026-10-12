@@ -85,7 +85,7 @@ Afterward, edit `EVAL.ts` and `test/EVAL.ts` inside the new eval to define succe
 
 `@vercel/agent-eval` removes every file named `EVAL.ts` (in any folder) and `PROMPT.md` before the
 LLM runs, and puts them back right before validation. **Any other file is visible to the LLM**, so
-tests must always be in a file called `EVAL.ts`:
+tests that must be hidden from the LLM must be in a file called `EVAL.ts`:
 
 - `EVAL.ts` is run by the harness with its own vitest config (no Svelte plugin): use it for static
   checks on the generated source.
@@ -94,6 +94,9 @@ tests must always be in a file called `EVAL.ts`:
   `test` npm script, which experiments list in `scripts`. The script passes
   `--config vite.config.ts` explicitly because the harness writes a `vitest.config.ts` in the
   project that would otherwise take precedence.
+
+The component test configuration includes all JavaScript and TypeScript files under `test/`,
+so visible tests can live alongside `test/EVAL.ts` using other filenames.
 
 Component tests use `render` from `vitest-browser-svelte`, browser locators, and awaited
 `expect.element(...)` assertions. Keyboard interactions use `userEvent` from `vitest/browser`.
