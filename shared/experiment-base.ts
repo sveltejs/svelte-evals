@@ -2,6 +2,7 @@ import { autocompleteMultiselect, cancel, isCancel } from '@clack/prompts';
 import type { ExperimentConfig } from '@vercel/agent-eval';
 import { gateway } from 'ai';
 import { readFile } from 'node:fs/promises';
+import { setup_default_project } from './default-project.ts';
 
 const available_models = await gateway.getAvailableModels();
 
@@ -48,6 +49,7 @@ export function experiment(
 		...base_config,
 		...options,
 		async setup(sandbox) {
+			await setup_default_project(sandbox);
 			// The harness protects this directory in the separate verifier, while
 			// package.json and application-level Vite options remain editable.
 			await sandbox.writeFiles({

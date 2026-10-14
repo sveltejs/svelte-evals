@@ -10,5 +10,5 @@
 		"types": ["node"],
 		"lib": ["ESNext"]
 	},
-	"include": ["experiments"]
+	"include": ["experiments", "scripts"]
 }
