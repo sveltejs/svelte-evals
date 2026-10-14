@@ -2,8 +2,9 @@
 
 Evals for LLMs to learn and benchmark their Svelte skills.
 
-This repository is split into two main concepts:
-- **Evals** live in `evals/<name>` and include a prompt plus a runnable project and tests.
+This repository has three main parts:
+- **Evals** live in `evals/<name>` and include a prompt, tests, and any project-specific overrides.
+- **The shared project** lives in `assets/default-project/` and is copied into each sandbox during setup.
 - **Experiments** live in `experiments/<name>.ts` and configure how evals are executed with
   `@vercel/agent-eval`.
 
@@ -76,10 +77,20 @@ pnpm run add-eval
 ```
 
 The script will:
-- Create `evals/<your-eval-name>/` from `assets/default-project/`
+- Create `evals/<your-eval-name>/` with a minimal `package.json`, `EVAL.ts`, and a starter `test/EVAL.ts`
 - Write your prompt to `evals/<your-eval-name>/PROMPT.md`
 
 Afterward, edit `EVAL.ts` and `test/EVAL.ts` inside the new eval to define success criteria.
+
+During setup, files from `assets/default-project/` fill in any paths not supplied by the eval.
+Add files at the same relative paths under `evals/<name>/` to override them, or add new files
+there to extend the project. Overrides replace whole files, except for `package.json`: its
+top-level settings override the defaults, while scripts and dependency maps merge by name.
+Each eval needs at least `{"type":"module"}` because the harness validates it before setup.
+Shared dependency and Vite configuration changes belong in `assets/default-project/`.
+
+`EVAL.ts` and `PROMPT.md` are never copied from the default project during setup: hidden tests
+must live in the eval itself so the harness can restore them only for validation.
 
 ### Where tests live
 
@@ -103,7 +114,7 @@ Component tests use `render` from `vitest-browser-svelte`, browser locators, and
 `expect.element(...)` assertions. Keyboard interactions use `userEvent` from `vitest/browser`.
 The renderer automatically cleans up between tests; no jsdom or Testing Library setup is needed.
 
-The shared experiment setup installs project dependencies and runs
+The shared experiment setup fills in the default project, installs project dependencies, and runs
 `playwright install --with-deps chromium` before the agent starts. Experiment-specific
 setup hooks run afterward. Experiments use the Ubuntu-based `vercel/sandbox/universal`
 image pinned by digest in `shared/experiment-base.ts`, with a 1200-second timeout to
@@ -120,17 +131,29 @@ into the harness-protected `__agent_eval__/` directory. Each hidden root `EVAL.t
 imports `verify-tests.mjs` directly, so changing the `check:tests` npm script
 cannot bypass the check.
 
-To run the integrity check locally from an eval directory, copy those two files from
-`shared/` into its `__agent_eval__/` directory and run `pnpm run check:tests`.
 Run its regression tests from the repository root with
-`pnpm exec vitest run shared/verify-tests.test.mjs`.
+`pnpm exec vitest run shared/verify-tests.test.mjs shared/default-project.test.ts`.
 
-To run an eval's component tests locally after implementing its prompt:
+To work on an eval locally, assemble the default project and its overrides in a temporary
+directory, then implement the prompt there and run the checks:
 
 ```bash
-cd evals/accordion
+project=$(mktemp -d)
+cp -R assets/default-project/. "$project/"
+cp -R evals/accordion/. "$project/"
+node --input-type=module -e '
+import { readFile, writeFile } from "node:fs/promises";
+import { merge_package_json } from "./shared/default-project.ts";
+const defaults = await readFile("assets/default-project/package.json", "utf8");
+const path = `${process.argv[1]}/package.json`;
+await writeFile(path, merge_package_json(defaults, await readFile(path, "utf8")));
+' "$project"
+mkdir -p "$project/__agent_eval__"
+cp shared/verify-tests.mjs shared/vitest.integrity.config.mjs "$project/__agent_eval__/"
+cd "$project"
 pnpm install --ignore-workspace
 pnpm exec playwright install --with-deps chromium
+pnpm run check:tests
 pnpm test
 ```
 

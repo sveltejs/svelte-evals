@@ -1,5 +1,5 @@
 import { cancel, intro, isCancel, text } from '@clack/prompts';
-import { cp, writeFile } from 'node:fs/promises';
+import { cp, mkdir, writeFile } from 'node:fs/promises';
 
 intro("Let's add a new eval!");
 
@@ -29,7 +29,9 @@ check(prompt);
 
 const eval_path = `./evals/${name}`;
 
-await cp('./assets/default-project', eval_path, { recursive: true });
+await mkdir(`${eval_path}/test`, { recursive: true });
+await writeFile(`${eval_path}/package.json`, `${JSON.stringify({ type: 'module' }, null, '\t')}\n`);
+await cp('./assets/default-project/test/EVAL.ts', `${eval_path}/test/EVAL.ts`);
 await writeFile(`${eval_path}/PROMPT.md`, prompt);
 await writeFile(
 	`${eval_path}/EVAL.ts`,
