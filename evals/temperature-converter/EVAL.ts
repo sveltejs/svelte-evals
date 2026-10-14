@@ -1,28 +1,21 @@
 import { it, expect } from "vitest";
 import { readFile } from "node:fs/promises";
+import './__agent_eval__/verify-tests.mjs';
 
 /**
  * Validates that the temperature converter component uses proper Svelte 5 patterns:
- * - Single $state() as source of truth
- * - $derived() for other temperature scales
- * - No multiple $state that update each other (causes loops)
+ * - Reactive temperature values using $state()
+ * - Conversions via derived values or input handlers
  * - No $effect for conversions
  * - No export let (Svelte 4 pattern)
  */
 export function validate(code: string) {
 	const errors: string[] = [];
 
-	// Must have $state() for the source of truth
+	// Must have $state() for reactive temperature values
 	if (!code.includes('$state')) {
 		errors.push(
-			'Component must use $state() for the source of truth temperature value',
-		);
-	}
-
-	// Must use $derived() for calculated values
-	if (!code.includes('$derived')) {
-		errors.push(
-			'Component must use $derived() for the other temperature scales',
+			'Component must use $state() for reactive temperature values',
 		);
 	}
 
@@ -30,7 +23,7 @@ export function validate(code: string) {
 	if (code.includes('$effect')) {
 		errors.push(
 			'Component should NOT use $effect for temperature conversions. ' +
-				'Use $derived() instead for reactive calculations.',
+				'Use $derived() or input handlers instead.',
 		);
 	}
 

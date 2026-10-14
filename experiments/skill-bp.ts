@@ -1,5 +1,4 @@
 import { experiment } from '../shared/experiment-base.ts';
-import { folder_to_object } from '../shared/utils.ts';
 
 export default experiment({
 	runs: 1,

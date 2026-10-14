@@ -8,7 +8,7 @@
 		"visualize": "node ./scripts/visualize.ts"
 	},
 	"devDependencies": {
-		"@types/node": "^22.0.0",
+		"@types/node": "^26.6.1",
 		"typescript": "^6.0.3",
 		"vite": "^8.3.4",
 		"vitest": "^5.0.3"

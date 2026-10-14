@@ -15,8 +15,14 @@ Create a Svelte 5 timer with:
     - Pause button to stop counting (preserves elapsed time)
     - Reset button to clear timer and laps
     - Lap button to record current time
-3. **Display**: Show time in MM:SS.ms format (e.g., "01:30.50" for 1 minute, 30 seconds, 500 milliseconds)
-4. **Laps**: Store and display list of recorded lap times
+3. **Display**: Show time in MM:SS.ms format, zero padded, where `ms` is two digits (hundredths of a second), e.g. "01:30.50" for 1 minute, 30 seconds, 500 milliseconds. Initially "00:00.00"
+4. **Laps**: Store and display list of recorded lap times. Each lap shows the total elapsed time at the moment it was recorded (not the split since the previous lap), in the same MM:SS.ms format, in the order they were recorded (first lap first)
+
+## Markup
+
+- Time display: `data-testid="display"`
+- Buttons: `data-testid="start"`, `data-testid="pause"`, `data-testid="reset"`, `data-testid="lap"`. Start must be rendered while the timer is not running; pause, reset and lap must be rendered while it is running
+- Each recorded lap: `data-testid="lap-{index}"` with a zero-based index (`lap-0` is the first recorded lap). No lap elements are rendered when there are no laps (e.g. after reset)
 
 ## Technical Requirements
 
