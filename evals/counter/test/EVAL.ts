@@ -7,7 +7,7 @@ describe('Counter component', () => {
 		const screen = await render(Counter);
 		await expect
 			.element(screen.getByTestId('count-value'))
-			.toMatchTextContent('0');
+			.toHaveTextContent('0');
 		await expect
 			.element(screen.getByTestId('decrement-button'))
 			.toBeInTheDocument();
@@ -19,17 +19,17 @@ describe('Counter component', () => {
 	test('increments the count when + button is clicked', async () => {
 		const screen = await render(Counter);
 		const count = screen.getByTestId('count-value');
-		await expect.element(count).toMatchTextContent('0');
+		await expect.element(count).toHaveTextContent('0');
 		await screen.getByTestId('increment-button').click();
-		await expect.element(count).toMatchTextContent('1');
+		await expect.element(count).toHaveTextContent('1');
 	});
 
 	test('decrements the count when - button is clicked', async () => {
 		const screen = await render(Counter);
 		const count = screen.getByTestId('count-value');
-		await expect.element(count).toMatchTextContent('0');
+		await expect.element(count).toHaveTextContent('0');
 		await screen.getByTestId('decrement-button').click();
-		await expect.element(count).toMatchTextContent('-1');
+		await expect.element(count).toHaveTextContent('-1');
 	});
 
 	test('handles multiple clicks correctly', async () => {
@@ -37,8 +37,8 @@ describe('Counter component', () => {
 		const count = screen.getByTestId('count-value');
 		await screen.getByTestId('increment-button').click();
 		await screen.getByTestId('increment-button').click();
-		await expect.element(count).toMatchTextContent('2');
+		await expect.element(count).toHaveTextContent('2');
 		await screen.getByTestId('decrement-button').click();
-		await expect.element(count).toMatchTextContent('1');
+		await expect.element(count).toHaveTextContent('1');
 	});
 });

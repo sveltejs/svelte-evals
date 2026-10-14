@@ -9,3 +9,4 @@ results/
 .env*.local
 old-ones
 .env*
+!.env.example

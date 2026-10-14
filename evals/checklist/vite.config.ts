@@ -12,6 +12,6 @@ export default defineConfig({
 			provider: playwright(),
 			instances: [{ browser: 'chromium', headless: true }]
 		},
-		include: ['test/**/*.{js,ts}']
+		include: ['test/**/EVAL.ts', 'test/**/*.{test,spec}.{js,ts}']
 	}
 });

@@ -6,17 +6,17 @@ describe('Counter with bounds component', () => {
 	test('increment increases count', async () => {
 		const screen = await render(Counter, { props: { initialValue: 0 } });
 		const count = screen.getByTestId('count-value');
-		await expect.element(count).toMatchTextContent('0');
+		await expect.element(count).toHaveTextContent('0');
 		await screen.getByTestId('increment-button').click();
-		await expect.element(count).toMatchTextContent('1');
+		await expect.element(count).toHaveTextContent('1');
 	});
 
 	test('decrement decreases count', async () => {
 		const screen = await render(Counter, { props: { initialValue: 5 } });
 		const count = screen.getByTestId('count-value');
-		await expect.element(count).toMatchTextContent('5');
+		await expect.element(count).toHaveTextContent('5');
 		await screen.getByTestId('decrement-button').click();
-		await expect.element(count).toMatchTextContent('4');
+		await expect.element(count).toHaveTextContent('4');
 	});
 
 	test('increment disabled at max', async () => {
@@ -36,11 +36,11 @@ describe('Counter with bounds component', () => {
 	test('reset returns to initial value', async () => {
 		const screen = await render(Counter, { props: { initialValue: 5 } });
 		const count = screen.getByTestId('count-value');
-		await expect.element(count).toMatchTextContent('5');
+		await expect.element(count).toHaveTextContent('5');
 		await screen.getByTestId('increment-button').click();
-		await expect.element(count).toMatchTextContent('6');
+		await expect.element(count).toHaveTextContent('6');
 		await screen.getByTestId('reset-button').click();
-		await expect.element(count).toMatchTextContent('5');
+		await expect.element(count).toHaveTextContent('5');
 	});
 
 	test('defaults work without bounds - no buttons disabled', async () => {
@@ -57,8 +57,8 @@ describe('Counter with bounds component', () => {
 		const screen = await render(Counter, { props: { initialValue: 0 } });
 		const count = screen.getByTestId('count-value');
 		await screen.getByTestId('increment-button').click();
-		await expect.element(count).toMatchTextContent('1');
+		await expect.element(count).toHaveTextContent('1');
 		await screen.rerender({ initialValue: 10 });
-		await expect.element(count).toMatchTextContent('10');
+		await expect.element(count).toHaveTextContent('10');
 	});
 });

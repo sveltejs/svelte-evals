@@ -95,23 +95,42 @@ tests that must be hidden from the LLM must be in a file called `EVAL.ts`:
   `--config vite.config.ts` explicitly because the harness writes a `vitest.config.ts` in the
   project that would otherwise take precedence.
 
-The component test configuration includes all JavaScript and TypeScript files under `test/`,
-so visible tests can live alongside `test/EVAL.ts` using other filenames.
+The component test configuration includes `test/**/EVAL.ts` and
+`test/**/*.{test,spec}.{js,ts}`, so visible tests can live alongside the hidden suite.
+Other files under `test/` can be helpers without being treated as test suites.
 
 Component tests use `render` from `vitest-browser-svelte`, browser locators, and awaited
 `expect.element(...)` assertions. Keyboard interactions use `userEvent` from `vitest/browser`.
 The renderer automatically cleans up between tests; no jsdom or Testing Library setup is needed.
 
-The `pretest` script runs `playwright install --with-deps chromium` to install the matching
-Chromium binary and its system libraries. Experiments use the Ubuntu-based
-`vercel/sandbox/universal:latest` image through agent-eval's `sandboxImage` option, so
-Playwright manages the Linux dependencies. The browser download is cached on subsequent runs.
+The shared experiment setup installs project dependencies and runs
+`playwright install --with-deps chromium` before the agent starts. Experiment-specific
+setup hooks run afterward. Experiments use the Ubuntu-based `vercel/sandbox/universal`
+image pinned by digest in `shared/experiment-base.ts`, with a 1200-second timeout to
+allow for dependency installation, the agent, and validation.
+
+Validation runs in a separate verifier sandbox, which also runs the setup hook.
+Agents can add dependencies to `package.json` and configure application-level Vite
+options. The `check:tests` script verifies the validation commands and the resolved
+`test` configuration, including browser settings and discovery patterns. Changes to
+that configuration or validation lifecycle hooks fail the check.
+
+Setup installs the shared Vitest test (`shared/verify-tests.mjs`) and its configuration
+into the harness-protected `__agent_eval__/` directory. Each hidden root `EVAL.ts`
+imports `verify-tests.mjs` directly, so changing the `check:tests` npm script
+cannot bypass the check.
+
+To run the integrity check locally from an eval directory, copy those two files from
+`shared/` into its `__agent_eval__/` directory and run `pnpm run check:tests`.
+Run its regression tests from the repository root with
+`pnpm exec vitest run shared/verify-tests.test.mjs`.
 
 To run an eval's component tests locally after implementing its prompt:
 
 ```bash
 cd evals/accordion
 pnpm install --ignore-workspace
+pnpm exec playwright install --with-deps chromium
 pnpm test
 ```
 

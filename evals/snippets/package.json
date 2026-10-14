@@ -4,12 +4,12 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
+		"check:tests": "vitest run --config __agent_eval__/vitest.integrity.config.mjs",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"pretest": "playwright install --with-deps chromium",
 		"test": "vitest run --config vite.config.ts",
 		"opencode:config": "opencode debug config"
 	},

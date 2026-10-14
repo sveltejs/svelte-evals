@@ -1,8 +1,24 @@
 import { render } from 'vitest-browser-svelte';
 import { expect, test, describe } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import TemperatureConverter from '../src/routes/+page.svelte';
 
 describe('TemperatureConverter component', () => {
+	test('allows clearing and typing a decimal value without rewriting the active field', async () => {
+		const screen = await render(TemperatureConverter);
+		const kelvin = screen.getByTestId('kelvin-input');
+		await kelvin.fill('273.15');
+		await kelvin.fill('');
+		await expect.element(kelvin).toHaveValue(null);
+		await kelvin.click();
+		for (const key of '373.15') {
+			await userEvent.keyboard(key);
+		}
+		await expect.element(kelvin).toHaveValue(373.15);
+		await expect.element(screen.getByTestId('celsius-input')).toHaveValue(100);
+		await expect.element(screen.getByTestId('fahrenheit-input')).toHaveValue(212);
+	});
+
 	test('Celsius to Fahrenheit - enter 0 Celsius, verify Fahrenheit shows 32', async () => {
 		const screen = await render(TemperatureConverter);
 		await screen.getByTestId('celsius-input').fill('0');

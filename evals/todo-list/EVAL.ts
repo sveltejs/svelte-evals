@@ -1,5 +1,6 @@
 import { it, expect } from "vitest";
 import { readFile } from "node:fs/promises";
+import './__agent_eval__/verify-tests.mjs';
 
 /**
  * Validates that the todo list component follows Svelte 5 best practices

@@ -1,5 +1,6 @@
 import { it, expect } from "vitest";
 import { readFile } from "node:fs/promises";
+import './__agent_eval__/verify-tests.mjs';
 
 /**
  * Validates that the checklist component follows Svelte 5 best practices
@@ -7,10 +8,8 @@ import { readFile } from "node:fs/promises";
 export function validate(code: string) {
 	const errors: string[] = [];
 
-	// Must use $state() for selected Set/array
-	if (!code.includes('$state')) {
-		errors.push('Component must use $state() for the selected Set/array');
-	}
+	// Selection reactivity is covered by the browser tests: both $state arrays
+	// and reactive collections such as SvelteSet are valid.
 
 	// Must use $derived() for allSelected and someSelected
 	if (!code.includes('$derived')) {
@@ -19,7 +18,7 @@ export function validate(code: string) {
 		);
 	}
 
-	// Must use $derived() for allSelected and someSelected
+	// Must not use effects to synchronize selection state
 	if (code.includes('$effect')) {
 		errors.push('Component must not use $effect()');
 	}

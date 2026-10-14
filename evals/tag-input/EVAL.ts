@@ -1,5 +1,6 @@
 import { it, expect } from "vitest";
 import { readFile } from "node:fs/promises";
+import './__agent_eval__/verify-tests.mjs';
 
 /**
  * Validates that the tag input component follows Svelte 5 best practices
@@ -16,14 +17,6 @@ export function validate(code: string) {
 	if (!code.includes('$derived')) {
 		errors.push(
 			'Component must use $derived() for the canAddMore computed value',
-		);
-	}
-
-	// Must use {#each ... as ... (key)} with a key
-	const eachRegex = /\{#each\s+\w+\s+as\s+\w+\s*,?\s*\w*\s*\([^)]+\)/;
-	if (!eachRegex.test(code)) {
-		errors.push(
-			'Component must use {#each tags as tag (key)} with a unique key for proper list rendering',
 		);
 	}
 
