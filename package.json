@@ -16,7 +16,7 @@
 	},
 	"dependencies": {
 		"@clack/prompts": "1.8.1",
-		"@vercel/agent-eval": "^2.5.0",
+		"@vercel/agent-eval": "^2.6.0",
 		"ai": "^7.0.137"
 	}
 }

@@ -29,10 +29,12 @@ if (isCancel(models)) {
 }
 
 const base_config: ExperimentConfig = {
-	agent: 'vercel-ai-gateway/opencode',
+	agent: 'vercel-ai-gateway/pi-coding-agent',
 	runs: 1,
 	earlyExit: true,
-	model: models.map((model) => `vercel/${model}`),
+	// Pi always runs with its `vercel-ai-gateway` provider, so it takes the
+	// plain gateway model id (no `vercel/` prefix like OpenCode needed).
+	model: models,
 	scripts: ['check:tests', 'build', 'test'],
 	timeout: 1200,
 	sandbox: 'vercel',
