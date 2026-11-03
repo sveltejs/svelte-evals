@@ -4,29 +4,44 @@ import { gateway } from 'ai';
 import { readFile } from 'node:fs/promises';
 import { setup_default_project } from './default-project.ts';
 
-const available_models = await gateway.getAvailableModels();
+async function select_models() {
+	const available_models = await gateway.getAvailableModels();
 
-const model_options = [{ value: 'custom', label: 'Custom' }].concat(
-	available_models.models.reduce<Array<{ value: string; label: string }>>(
-		(arr, model) => {
-			if (model.modelType === 'language') {
-				arr.push({ value: model.id, label: model.name });
-			}
-			return arr;
-		},
-		[],
-	),
-);
+	const model_options = [{ value: 'custom', label: 'Custom' }].concat(
+		available_models.models.reduce<Array<{ value: string; label: string }>>(
+			(arr, model) => {
+				if (model.modelType === 'language') {
+					arr.push({ value: model.id, label: model.name });
+				}
+				return arr;
+			},
+			[],
+		),
+	);
 
-const models = await autocompleteMultiselect({
-	message: 'Select model(s) to benchmark',
-	options: model_options,
-});
+	const models = await autocompleteMultiselect({
+		message: 'Select model(s) to benchmark',
+		options: model_options,
+	});
 
-if (isCancel(models)) {
-	cancel('Operation cancelled.');
-	process.exit(0);
+	if (isCancel(models)) {
+		cancel('Operation cancelled.');
+		process.exit(0);
+	}
+
+	return models;
 }
+
+// agent-eval loads every experiment through jiti with `moduleCache: false`, so
+// this module is re-evaluated once per experiment (and `run` loads them
+// concurrently). Keep the selection on `globalThis`, which those evaluations
+// share, so the prompt is shown once per process. Caching the promise rather
+// than the result makes concurrent loads wait for the same prompt.
+const models_key = Symbol.for('svelte-evals:selected-models');
+const models_cache = globalThis as typeof globalThis & {
+	[models_key]?: Promise<string[]>;
+};
+const models = await (models_cache[models_key] ??= select_models());
 
 const base_config: ExperimentConfig = {
 	agent: 'vercel-ai-gateway/opencode',
