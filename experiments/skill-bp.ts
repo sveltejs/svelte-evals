@@ -8,10 +8,10 @@ export default experiment({
 	},
 	async setup(sandbox) {
 		await sandbox.writeFiles({
-			'./.opencode/opencode.json': JSON.stringify({
-				plugin: ['@sveltejs/opencode'],
+			'./.pi/settings.json': JSON.stringify({
+				packages: ['npm:@sveltejs/pi'],
 			}),
-			'./.opencode/svelte.json': JSON.stringify({
+			'./.pi/svelte.json': JSON.stringify({
 				mcp: {
 					enabled: false,
 				},
