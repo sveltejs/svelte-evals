@@ -5,7 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"add-eval": "node ./scripts/add-eval.ts",
-		"visualize": "node ./scripts/visualize.ts"
+		"visualize": "node ./scripts/visualize.ts",
+		"start": "agent-eval"
 	},
 	"devDependencies": {
 		"@types/node": "^26.6.1",
