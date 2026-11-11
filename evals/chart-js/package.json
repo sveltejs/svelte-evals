@@ -1,0 +1,6 @@
+{
+	"type": "module",
+	"devDependencies": {
+		"chart.js": "^4.6.1"
+	}
+}
