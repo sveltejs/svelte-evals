@@ -13,6 +13,9 @@ export default experiment({
 				mcp: {
 					enabled: false,
 				},
+				instructions: {
+					enabled: false,
+				}
 			}),
 		});
 	},
