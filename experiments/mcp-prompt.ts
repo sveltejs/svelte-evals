@@ -203,13 +203,9 @@ If you are not writing the code into a file, once you have the final version of 
 	},
 	async setup(sandbox) {
 		await sandbox.writeFiles({
-			'./.opencode/opencode.json': JSON.stringify({
-				plugin: ['@sveltejs/opencode'],
-			}),
-			'./.opencode/svelte.json': JSON.stringify({
-				skills: {
-					enabled: false,
-				},
+			// Pi manages package skills itself: `skills: []` loads none of them.
+			'./.pi/settings.json': JSON.stringify({
+				packages: [{ source: 'npm:@sveltejs/pi', skills: [] }],
 			}),
 		});
 	},

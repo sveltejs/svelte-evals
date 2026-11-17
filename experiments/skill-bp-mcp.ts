@@ -8,8 +8,8 @@ Use the \`svelte-core-bestpractices\` skill if needed.`;
 	},
 	async setup(sandbox) {
 		await sandbox.writeFiles({
-			'./.opencode/opencode.json': JSON.stringify({
-				plugin: ['@sveltejs/opencode'],
+			'./.pi/settings.json': JSON.stringify({
+				packages: ['npm:@sveltejs/pi'],
 			}),
 		});
 	},
