@@ -12,7 +12,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"test:unit": "vitest --config vite.config.ts",
 		"test": "vitest run --config vite.config.ts",
-		"opencode:config": "opencode debug config"
+		"pi:config": "pi list"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^8.0.0",

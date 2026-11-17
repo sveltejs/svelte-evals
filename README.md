@@ -182,3 +182,28 @@ export default experiment({
    ```bash
    npx @vercel/agent-eval my-experiment
    ```
+
+### Configuring the agent
+
+Experiments run the [Pi coding agent](https://pi.dev) (`vercel-ai-gateway/pi-coding-agent`) through
+the Vercel AI Gateway. The harness marks the workspace as trusted, so Pi loads the project
+configuration that an experiment's `setup` hook writes into `.pi/`:
+
+- `.pi/settings.json` is Pi's own settings file. Use it to add the
+  [`@sveltejs/pi`](https://www.npmjs.com/package/@sveltejs/pi) package (Svelte MCP server, skills
+  and instructions). Pi installs it on startup. To narrow which skills load, use
+  [package filtering](https://pi.dev/docs/latest/packages#select-package-resources), for example
+  `{ "source": "npm:@sveltejs/pi", "skills": [] }` to load none.
+- `.pi/svelte.json` configures `@sveltejs/pi` itself, for example
+  `{ "mcp": { "enabled": false } }` to turn off the MCP server, or `instructions.enabled`.
+
+```ts
+export default experiment({
+  async setup(sandbox) {
+    await sandbox.writeFiles({
+      './.pi/settings.json': JSON.stringify({ packages: ['npm:@sveltejs/pi'] }),
+      './.pi/svelte.json': JSON.stringify({ mcp: { enabled: false } }),
+    });
+  },
+});
+```
